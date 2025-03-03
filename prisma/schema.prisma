@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Player {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  weight    Int
+  aim       String
+  gameSense String   @map("game_sense")
+  avatar    String?
+}
+
+model SkillHistory {
+  id           Int      @id @default(autoincrement())
+  playerId     Int      @map("player_id")
+  playerName   String?  @map("player_name")
+  oldWeight    Int      @map("old_weight")
+  newWeight    Int      @map("new_weight")
+  oldAim       String   @map("old_aim")
+  newAim       String   @map("new_aim")
+  oldGameSense String   @map("old_game_sense")
+  newGameSense String   @map("new_game_sense")
+  timestamp    DateTime @default(now())
+}
+
+model Match {
+  id         Int      @id @default(autoincrement())
+  timestamp  DateTime @default(now())
+  mapName    String   @map("map_name")
+  team1      String
+  team2      String
+  teamScores String   @map("team_scores")
+  winner     String
+}
+
+model Map {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
